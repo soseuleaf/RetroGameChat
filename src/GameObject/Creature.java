@@ -1,6 +1,6 @@
 package GameObject;
 
-import Engine.Graphics.Tile;
+import Engine.Graphics.Tiles.Tile;
 import Engine.Handler;
 
 public abstract class Creature extends Entity {

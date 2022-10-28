@@ -4,13 +4,14 @@ import Engine.Graphics.World;
 import Engine.Handler;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class WorldState extends State {
     private World world;
 
-    public WorldState(Handler handler){
+    public WorldState(Handler handler) throws FileNotFoundException {
         super(handler);
-        world = new World("res/world/world1.txt");
+        world = new World("res/worlds/world1.txt");
         handler.setWorld(world);
     }
 

@@ -12,7 +12,6 @@ public class Player extends Creature {
 	
 	public Player(Handler handler, int x, int y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		
 		bounds.x = 16;
 		bounds.y = 16;
 		bounds.width = 32;
@@ -50,7 +49,7 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		currentAni = getCurrentAnimation();
 		g.drawImage(currentAni.getCurrentFrame(), (int)x, (int)y, width, height, null);
-		g.drawRect((int)x, (int)y, width, height);
+		g.drawString("닉네임", x, y);
 	}
 	
 	private Animation getCurrentAnimation() {

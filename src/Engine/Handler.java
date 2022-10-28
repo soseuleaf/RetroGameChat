@@ -2,6 +2,8 @@ package Engine;
 
 import Engine.Graphics.World;
 
+import java.awt.*;
+
 public class Handler {
     private Game game;
     private World world;

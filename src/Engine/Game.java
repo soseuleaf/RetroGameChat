@@ -6,6 +6,7 @@ import GameObject.Assets;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.io.FileNotFoundException;
 
 public class Game implements Runnable {
     private Display display;
@@ -27,14 +28,14 @@ public class Game implements Runnable {
     //Handler
     private final Handler handler = new Handler(this);
 
-    public Game(String title, int width, int height) {
+    public Game(String title, int width, int height) throws FileNotFoundException {
         this.width = width;
         this.height = height;
         this.title = title;
         init();
     }
 
-    private void init() {
+    private void init() throws FileNotFoundException {
         display = new Display(title, width, height);
         display.getFrame().addKeyListener(keyManager);
         Assets.init();

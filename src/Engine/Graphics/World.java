@@ -1,15 +1,18 @@
 package Engine.Graphics;
 
-import Engine.Handler;
+import Engine.Graphics.Tiles.Tile;
+
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
 
 public class World {
 	private int width, height;
 	private int spawnX, spawnY;
-	private int[][] tiles;
-	
-	public World(String path) {
+	private int[][] mapArray;
+
+	public World(String path) throws FileNotFoundException {
 		loadWorld(path);
 	}
 	
@@ -23,35 +26,31 @@ public class World {
 		int yStart = 0;
 		int yEnd = height;
 
-		for(int y = yStart ; y < yEnd ; y++) {
-			for(int x = xStart ; x < xEnd ; x++) {
-				getTile(x,y).render(g, x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+		for(int x = xStart; x < xEnd; x++) {
+			for(int y = yStart; y < yEnd; y++) {
+				getTile(y,x).render(g, y * Tile.TILE_HEIGHT, x * Tile.TILE_WIDTH);
 			}
 		}
 	}
 	
-	public Tile getTile(int x, int y) {
-		if( x < 0 || y < 0 || x >= width || y >= height) {
-			return Tile.stoneTile;
-		}
-		
-		Tile t = Tile.tiles[tiles[x][y]];
+	public Tile getTile(int y, int x) {
+		Tile t = Tile.tiles[mapArray[y][x]];
 		if(t == null) {
-			return Tile.stoneTile;
+			return Tile.tiles[0];
 		}
 		return t;
 	}
 	
-	private void loadWorld(String path) {
-		width = 5;
-		height = 5;
-		tiles = new int[width][height];
-		
-		for(int x = 0 ; x < width ; x++) {
-			for(int y = 0 ; y < height ; y++) {
-				tiles[x][y] = 0;
+	private void loadWorld(String path) throws FileNotFoundException {
+		Scanner scanner = new Scanner(new FileReader(path));
+		width = scanner.nextInt();
+		height = scanner.nextInt();
+		mapArray = new int[height][width];
+
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				mapArray[y][x] = scanner.nextInt();
 			}
 		}
-		tiles[3][3] = 1;
 	}
 }
