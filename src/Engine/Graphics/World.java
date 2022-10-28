@@ -2,6 +2,7 @@ package Engine.Graphics;
 
 import Engine.Handler;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class World {
 	private int width, height;
@@ -21,7 +22,7 @@ public class World {
 		int xEnd = width;
 		int yStart = 0;
 		int yEnd = height;
-		
+
 		for(int y = yStart ; y < yEnd ; y++) {
 			for(int x = xStart ; x < xEnd ; x++) {
 				getTile(x,y).render(g, x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);

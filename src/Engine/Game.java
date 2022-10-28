@@ -1,10 +1,7 @@
 package Engine;
 
 import Engine.Graphics.Display;
-import Engine.State.MenuState;
-import Engine.State.PlayerState;
-import Engine.State.StateManager;
-import Engine.State.WorldState;
+import Engine.State.*;
 import GameObject.Assets;
 
 import java.awt.Graphics;
@@ -17,7 +14,9 @@ public class Game implements Runnable {
     private final String title;
 
     private boolean running = false;
-    private Thread thread;
+    private Thread gameThread;
+
+    private final int FPS = 60;
 
     //States
     private final StateManager stateManager = new StateManager();
@@ -32,6 +31,7 @@ public class Game implements Runnable {
         this.width = width;
         this.height = height;
         this.title = title;
+        init();
     }
 
     private void init() {
@@ -68,34 +68,20 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-        init();
-
-        int fps = 60;
-        double timePerupdate = 1000000000.0 / fps;
+        double drawInterval = 1_000_000_000.0 / FPS;
         double delta = 0;
-        long now;
         long lastTime = System.nanoTime();
+        long currentTime;
 
-        long timer = 0;
-        int updates = 0;
+        while (gameThread != null) {
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
 
-        while(running) {
-            now = System.nanoTime();
-            delta = (now - lastTime);
-            timer += now - lastTime;
-
-            if(delta >= timePerupdate) {
-                lastTime = now;
+            if (delta >= 1) {
                 update();
                 render();
-                updates++;
-                delta = 0;
-            }
-
-            if(timer >= 1000000000) {
-                System.out.println(updates);
-                updates = 0;
-                timer = 0;
+                delta--;
             }
         }
     }
@@ -115,8 +101,8 @@ public class Game implements Runnable {
     public synchronized void start() {
         if(!running) {
             running = true;
-            thread = new Thread(this);
-            thread.start();
+            gameThread = new Thread(this);
+            gameThread.start();
         }
     }
 
@@ -124,7 +110,7 @@ public class Game implements Runnable {
         if(running) {
             running = false;
             try {
-                thread.join();
+                gameThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

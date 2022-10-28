@@ -30,13 +30,11 @@ public class Tile {
 		g.drawImage(texture, x, y, TILE_WIDTH, TILE_HEIGHT, null);
 	}
 	
-	public boolean isSolid()
-	{
+	public boolean isSolid() {
 		return false;
 	}
 	
-	public int getID()
-	{
+	public int getID() {
 		return this.ID;
 	}
 }

@@ -17,10 +17,10 @@ public class Player extends Creature {
 		bounds.y = 16;
 		bounds.width = 32;
 		bounds.height = 32;
-		animLeft = new Animation(75, Assets.player_left);
-		animRight = new Animation(75, Assets.player_right);
-		animIdleLeft = new Animation(90, Assets.player_idle_left);
-		animIdleRight = new Animation(90, Assets.player_idle_right);
+		animLeft = new Animation(75, Assets.move_left);
+		animRight = new Animation(75, Assets.move_right);
+		animIdleLeft = new Animation(90, Assets.idle_left);
+		animIdleRight = new Animation(90, Assets.idle_right);
 	}
 
 	@Override

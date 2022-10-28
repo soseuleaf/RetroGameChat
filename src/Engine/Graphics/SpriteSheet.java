@@ -32,10 +32,10 @@ public class SpriteSheet{
 		return tmp;
 	}
 
-	public static BufferedImage copyImage(BufferedImage source){
-		BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+	public BufferedImage copyImage(BufferedImage image){
+		BufferedImage b = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics g = b.getGraphics();
-		g.drawImage(source, 0, 0, null);
+		g.drawImage(image, 0, 0, null);
 		g.dispose();
 		return b;
 	}
