@@ -22,7 +22,7 @@ public class Tile {
 		tiles[id] = this;
 	}
 	
-	public void tick() {
+	public void update() {
 		
 	}
 	

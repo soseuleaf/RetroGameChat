@@ -1,31 +1,32 @@
 package Engine;
 
-import GameObject.Assets;
 import Engine.Graphics.Display;
+import Engine.State.MenuState;
+import Engine.State.PlayerState;
+import Engine.State.StateManager;
+import Engine.State.WorldState;
+import GameObject.Assets;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
     private Display display;
-    private int width, height;
-    private String title;
+    private final int width;
+    private final int height;
+    private final String title;
 
     private boolean running = false;
     private Thread thread;
 
-    private BufferStrategy bs;
-    private Graphics g;
-
     //States
-    private State gameState;
-    private State menuState;
+    private final StateManager stateManager = new StateManager();
 
     //Input
-    private KeyManager keyManager = new KeyManager();
+    private final KeyManager keyManager = new KeyManager();
 
     //Handler
-    private Handler handler;
+    private final Handler handler = new Handler(this);
 
     public Game(String title, int width, int height) {
         this.width = width;
@@ -38,36 +39,28 @@ public class Game implements Runnable {
         display.getFrame().addKeyListener(keyManager);
         Assets.init();
 
-        handler = new Handler(this);
-        gameState = new GameState(handler);
-        menuState = new MenuState(handler);
-        State.setState(gameState);
+        /* add 순서 지킬 것*/
+        stateManager.addState(new WorldState(handler));
+        stateManager.addState(new PlayerState(handler));
+        stateManager.addState(new MenuState(handler));
     }
 
-    private void tick() {
-        keyManager.tick();
-
-        if(State.getState() != null)
-        {
-            State.getState().tick();
-        }
+    private void update() {
+        keyManager.update();
+        stateManager.update();
     }
 
     private void render() {
-        bs = display.getCanvas().getBufferStrategy();
-        if(bs == null)
-        {
+        BufferStrategy bs = display.getCanvas().getBufferStrategy();
+        if(bs == null) {
             display.getCanvas().createBufferStrategy(3);
             return;
         }
-        g = bs.getDrawGraphics();
+        Graphics g = bs.getDrawGraphics();
         //Clear Screen
         g.clearRect(0, 0, width, height);
         //Draw
-        if(State.getState() != null)
-        {
-            State.getState().render(g);
-        }
+        stateManager.render(g);
         //End Drawing
         bs.show();
         g.dispose();
@@ -78,35 +71,30 @@ public class Game implements Runnable {
         init();
 
         int fps = 60;
-        double timePerTick = 1000000000 / fps;
+        double timePerupdate = 1000000000.0 / fps;
         double delta = 0;
         long now;
         long lastTime = System.nanoTime();
 
         long timer = 0;
-        int ticks = 0;
+        int updates = 0;
 
-        while(running)
-        {
+        while(running) {
             now = System.nanoTime();
             delta = (now - lastTime);
             timer += now - lastTime;
 
-
-
-            if(delta >= timePerTick)
-            {
+            if(delta >= timePerupdate) {
                 lastTime = now;
-                tick();
+                update();
                 render();
-                ticks++;
+                updates++;
                 delta = 0;
             }
 
-            if(timer >= 1000000000)
-            {
-                System.out.println(ticks);
-                ticks = 0;
+            if(timer >= 1000000000) {
+                System.out.println(updates);
+                updates = 0;
                 timer = 0;
             }
         }
@@ -125,8 +113,7 @@ public class Game implements Runnable {
     }
 
     public synchronized void start() {
-        if(!running)
-        {
+        if(!running) {
             running = true;
             thread = new Thread(this);
             thread.start();
@@ -134,14 +121,11 @@ public class Game implements Runnable {
     }
 
     public synchronized void stop() {
-        if(running)
-        {
+        if(running) {
             running = false;
-            try
-            {
+            try {
                 thread.join();
-            } catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

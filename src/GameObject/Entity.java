@@ -61,7 +61,7 @@ public abstract class Entity {
 		this.height = height;
 	}
 
-	public abstract void tick();
+	public abstract void update();
 	
 	public abstract void render(Graphics g);
 }

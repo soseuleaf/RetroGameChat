@@ -1,15 +1,16 @@
-package Engine;
+package Engine.State;
+
+import Engine.Handler;
 
 import java.awt.Graphics;
 
 public class MenuState extends State {
-	public MenuState(Handler handler)
-	{
+	public MenuState(Handler handler) {
 		super(handler);
 	}
 	
 	@Override
-	public void tick() {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}

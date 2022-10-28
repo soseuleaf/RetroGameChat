@@ -8,11 +8,11 @@ public class World {
 	private int spawnX, spawnY;
 	private int[][] tiles;
 	
-	public World(Handler handler, String path) {
+	public World(String path) {
 		loadWorld(path);
 	}
 	
-	public void tick() {
+	public void update() {
 		
 	}
 	
@@ -46,14 +46,11 @@ public class World {
 		height = 5;
 		tiles = new int[width][height];
 		
-		for(int x = 0 ; x < width ; x++)
-		{
-			for(int y = 0 ; y < height ; y++)
-			{
+		for(int x = 0 ; x < width ; x++) {
+			for(int y = 0 ; y < height ; y++) {
 				tiles[x][y] = 0;
 			}
 		}
-		
 		tiles[3][3] = 1;
 	}
 }

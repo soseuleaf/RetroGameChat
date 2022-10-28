@@ -24,9 +24,9 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public void tick() {
+	public void update() {
 		//Animations
-		if(currentAni != null) currentAni.tick();
+		if(currentAni != null) currentAni.update();
 
 		//Animations
 		getInput();
