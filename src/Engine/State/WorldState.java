@@ -11,7 +11,7 @@ public class WorldState extends State {
 
     public WorldState(Handler handler) throws FileNotFoundException {
         super(handler);
-        world = new World("res/worlds/world1.txt");
+        world = new World("res/worlds/world1.txt", "res/worlds/solid.txt");
         handler.setWorld(world);
     }
 

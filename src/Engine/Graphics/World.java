@@ -1,6 +1,6 @@
 package Engine.Graphics;
 
-import Engine.Graphics.Tiles.Tile;
+import GameObject.Assets;
 
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
@@ -11,9 +11,14 @@ public class World {
 	private int width, height;
 	private int spawnX, spawnY;
 	private int[][] mapArray;
+	private int[][] mapFeat;
 
-	public World(String path) throws FileNotFoundException {
-		loadWorld(path);
+	public World(String path, String path2) throws FileNotFoundException {
+		loadWorld(path, path2);
+		for(int i = 0; i< Assets.tile_array.length; i++){
+			new Tile(Assets.tile_array[i], i);
+		}
+		new Tile(Assets.tile_array[511], 511);
 	}
 	
 	public void update() {
@@ -34,22 +39,40 @@ public class World {
 	}
 	
 	public Tile getTile(int y, int x) {
-		Tile t = Tile.tiles[mapArray[y][x]];
-		if(t == null) {
-			return Tile.tiles[0];
+		if(x < 0 || y < 0 || width <= x || height <= y){
+			return Tile.tiles[511];
 		}
-		return t;
+		else{
+			Tile t = Tile.tiles[mapArray[y][x]];
+			if(t == null) {
+				return Tile.tiles[511];
+			}
+			return t;
+		}
+	}
+
+	public boolean getSolid(int y, int x){
+		if(x >= width || y >= height || x < 0 || y < 0) return true;
+		return (mapFeat[y][x] == 0);
+	}
+
+	public int getTileFeat(int y, int x){
+		if(x >= width || y >= height || x < 0 || y < 0) return 0;
+		return mapFeat[y][x];
 	}
 	
-	private void loadWorld(String path) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new FileReader(path));
-		width = scanner.nextInt();
-		height = scanner.nextInt();
+	private void loadWorld(String path, String featSolid) throws FileNotFoundException {
+		Scanner tileScanner = new Scanner(new FileReader(path));
+		Scanner featScanner = new Scanner(new FileReader(featSolid));
+		width = tileScanner.nextInt();
+		height = tileScanner.nextInt();
 		mapArray = new int[height][width];
+		mapFeat = new int[height][width];
 
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
-				mapArray[y][x] = scanner.nextInt();
+				mapArray[y][x] = tileScanner.nextInt();
+				mapFeat[y][x] = featScanner.nextInt();
 			}
 		}
 	}

@@ -10,7 +10,7 @@ public class PlayerState extends State {
 
     public PlayerState(Handler handler){
         super(handler);
-        player = new Player(handler, 100, 100);
+        player = new Player(handler, 500, 500);
     }
 
     @Override

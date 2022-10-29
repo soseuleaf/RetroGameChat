@@ -1,23 +1,24 @@
 package Engine.State;
 
 import Engine.Handler;
-
-import java.awt.Graphics;
+import GameObject.Chat;
+import java.awt.*;
 
 public class MenuState extends State {
+	private static Chat chat;
+
 	public MenuState(Handler handler) {
 		super(handler);
+		chat = new Chat(handler);
 	}
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		chat.update();
 	}
 
 	@Override
 	public void render(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		chat.render(g);
 	}
 }

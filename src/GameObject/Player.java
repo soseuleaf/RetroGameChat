@@ -2,6 +2,7 @@ package GameObject;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import Engine.Graphics.Animation;
 import Engine.Handler;
@@ -9,7 +10,10 @@ import Engine.Handler;
 public class Player extends Creature {
 	private Animation animLeft, animRight, animIdleLeft, animIdleRight;
 	private Animation currentAni;
-	
+
+	private float actionCooltime = 0;
+	private final float maxCooltime = 60;
+
 	public Player(Handler handler, int x, int y) {
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		bounds.x = 16;
@@ -24,11 +28,14 @@ public class Player extends Creature {
 
 	@Override
 	public void update() {
-		//Animations
-		if(currentAni != null) currentAni.update();
-
-		//Animations
+		if(currentAni != null) {
+			currentAni.update();
+		}
+		if (actionCooltime > 0){
+			actionCooltime--;
+		}
 		getInput();
+		getEvent();
 		move();
 	}
 	
@@ -43,6 +50,18 @@ public class Player extends Creature {
 			xMove = -speed;
 		if(handler.getKeyManager().right)
 			xMove = speed;
+	}
+
+	private void getEvent(){
+		if(handler.getKeyManager().space && actionCooltime <= 0){
+			int tileFeat = handler.getWorld().getTileFeat(tx, ty);
+			if(tileFeat == 2){
+				Random random = new Random();
+				random.setSeed(System.currentTimeMillis());
+				System.out.println("와! 랜덤한 번호" + random.nextInt(100));
+			}
+			actionCooltime = maxCooltime;
+		}
 	}
 	
 	@Override

@@ -1,12 +1,11 @@
 package Engine;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyManager implements KeyListener {
-	private boolean[] keys;
-	public boolean up, down, left, right;
+	private final boolean[] keys;
+	public boolean up, down, left, right, space;
 
 	public KeyManager() {
 		keys = new boolean[256];
@@ -17,6 +16,7 @@ public class KeyManager implements KeyListener {
 		down = keys[KeyEvent.VK_S];
 		left = keys[KeyEvent.VK_A];
 		right = keys[KeyEvent.VK_D];
+		space = keys[KeyEvent.VK_SPACE];
 	}
 	
 	@Override

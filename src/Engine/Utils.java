@@ -6,12 +6,9 @@ import java.io.IOException;
 
 public class Utils
 {
-	public static String loadFileAsString(String path)
-	{
+	public static String loadFileAsString(String path) {
 		StringBuilder sb = new StringBuilder();
-		
-		try
-		{
+		try {
 			BufferedReader br = new BufferedReader(new FileReader(path));
 			String line;
 			while((line = br.readLine()) != null)
@@ -21,11 +18,9 @@ public class Utils
 			br.close();
 			
 		}
-		catch(IOException e)
-		{
+		catch(IOException e) {
 			
 		}
-		
 		return sb.toString();
 	}
 	

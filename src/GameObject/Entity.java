@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 public abstract class Entity {
 	protected Handler handler;
 	protected int x, y;
+	protected int tx, ty;
 	protected int width, height;
 	protected Rectangle bounds;
 	
