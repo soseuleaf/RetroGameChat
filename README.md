@@ -1,7 +1,3 @@
----
-typora-root-url: ./
----
-
 # RetroGameChat
 네트워크 프로그래밍 프로젝트
 
@@ -13,6 +9,6 @@ https://github.com/MarcoNadalin/2D_TopDown_TileBased_Java_Game
 
 https://spelunky.fyi/mods/m/pieninja314s-kirby-updated/
 
-## 이미지
+## 스크린샷
 
-![221030](/img/221030.PNG)
+![221031](/img/221031.PNG)

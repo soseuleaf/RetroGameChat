@@ -9,8 +9,6 @@ import Engine.Handler;
 
 public class Player extends Creature {
 	private Animation animLeft, animRight, animIdleLeft, animIdleRight;
-	private Animation currentAni;
-
 	private float actionCooltime = 0;
 	private final float maxCooltime = 60;
 
@@ -22,8 +20,8 @@ public class Player extends Creature {
 		bounds.height = 32;
 		animLeft = new Animation(75, Assets.move_left);
 		animRight = new Animation(75, Assets.move_right);
-		animIdleLeft = new Animation(90, Assets.idle_left);
-		animIdleRight = new Animation(90, Assets.idle_right);
+		animIdleLeft = new Animation(999, Assets.idle_left);
+		animIdleRight = new Animation(999, Assets.idle_right);
 	}
 
 	@Override
@@ -34,6 +32,7 @@ public class Player extends Creature {
 		if (actionCooltime > 0){
 			actionCooltime--;
 		}
+		currentAni = getCurrentAnimation();
 		getInput();
 		getEvent();
 		move();
@@ -63,14 +62,6 @@ public class Player extends Creature {
 			actionCooltime = maxCooltime;
 		}
 	}
-	
-	@Override
-	public void render(Graphics g) {
-		currentAni = getCurrentAnimation();
-		g.drawImage(currentAni.getCurrentFrame(), (int)x, (int)y, width, height, null);
-		g.drawString("닉네임", x, y);
-	}
-	
 	private Animation getCurrentAnimation() {
 		//If player is moving left
 		if(xMove < 0) {
@@ -98,5 +89,10 @@ public class Player extends Creature {
 				return animIdleLeft;
 			}
 		}
+	}
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(currentAni.getCurrentFrame(), (int)x, (int)y, width, height, null);
+		g.drawString("닉네임", x, y);
 	}
 }

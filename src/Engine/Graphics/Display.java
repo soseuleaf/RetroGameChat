@@ -63,7 +63,6 @@ public class Display {
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
             if(keyCode == KeyEvent.VK_ENTER){
-                System.out.println("넘기긱");
                 textField.requestFocus();
             }
         }
@@ -80,7 +79,6 @@ public class Display {
             setOpaque(true);
             setBackground(Color.WHITE);
             setForeground(Color.BLACK);
-            setToolTipText("채팅을 입력 하세요.");
             Font font = new Font("맑은 고딕", Font.BOLD, 20);
             setFont(font);
         }
